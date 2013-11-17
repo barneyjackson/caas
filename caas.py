@@ -4,7 +4,7 @@ import json
 import random
 import urllib           
 
-app = Flask(__name__, static_folder='static', static_url_path='')
+application = Flask(__name__, static_folder='static', static_url_path='')
 
 retorts = {
     0: 'Nah, it\'s shit.',
@@ -24,18 +24,18 @@ retorts = {
     14: 'Start again, seriously.',
     15: 'It\'s like you suddenly started writing with your eyes closed?',
     16: 'This was clearly an off day for you...',
-    17: 'What happened here?!',
+    17: 'What happlicationened here?!',
     18: 'You couldn\'t be more wrong',
     19: 'Are you retarded?',
     20: 'You can do better than this.',
     21: 'It just gets worse and worse.'
 }
 
-@app.route("/")
+@application.route("/")
 def index():
-    return app.send_static_file('index.html')
+    return application.send_static_file('index.html')
 
-@app.route("/criticise/<path:victim>")
+@application.route("/criticise/<path:victim>")
 def criticise(victim):
     sock = urllib.urlopen(victim)
     html = sock.read()           
@@ -79,9 +79,9 @@ def criticise(victim):
         thinking = retort_id in used
         if thinking == False:
             retort = retorts[retort_id]
-            used.append(retort_id)
+            used.applicationend(retort_id)
     print victim + ' -> ' + retort + ' Remaining: ' + str([ x for x in retorts.keys() if x not in used ] or str(None))
     return json.dumps({'lines': lines, 'retort': retort, 'used': used})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    application.run(debug=True)
