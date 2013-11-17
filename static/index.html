@@ -1,0 +1,93 @@
+<html>
+	<head>
+        <link rel="stylesheet" href="/css/bootstrap.css">
+        <link rel="stylesheet" href="/css/caas.css">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<title>CaaS</title>
+	</head>
+	<body>
+        <div id="header" class="jumbotron">
+            <h1>CaaS</h1>
+            <p>Sometimes you just need to be told.</p>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">URL</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <p><span class="text-primary">Criticism as a Service</span> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
+                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
+                </div>
+            </div>
+            <div id="loader"><img src="/images/loader.gif" /></div>
+            <div id="message">
+                <div id="retort" class="alert alert-warning"></div>
+                <div id="lines"></div>
+            </div>
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-unstyled">
+                            <li><a href="http://pinotgrig.io">Blog</a></li>
+                            <li><a href="https://twitter.com/barneyjackson">Twitter</a></li>
+                        </ul>
+                        <p>Made by <a href="http://barneyjackson.com">Barney Jackson</a>.
+                        <p>Based on <a href="http://getbootstrap.com">Bootstrap</a> with the <a href="http://bootswatch.com/cyborg">Cyborg</a> theme.
+                    </div>
+                </div>                
+            </footer>
+        </div>
+		<script>
+			$(document).ready(function() {
+                
+                function reply(lines_obj, msg) {
+                    $('#lines').html('');
+                    $.each(lines_obj, function() {
+                        line = '<div class="line"><pre><code>' + this.lineno + ': ' + this.text + '</code></pre></div>';
+                        $('#lines').append(line);
+                    });
+                    $('#retort').html(msg);
+                    $('#loader').hide()
+                    $('#message').show('show');
+                };
+                
+                var used = [];
+				$('button').click(function() {
+                    $('#message').hide();
+                    $('#loader').show();
+					victim = $('input').val();
+					if(/^([a-z]([a-z]|\d|\+|-|\.)*):(\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?((\[(|(v[\da-f]{1,}\.(([a-z]|\d|-|\.|_|~)|[!\$&'\(\)\*\+,;=]|:)+))\])|((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=])*)(:\d*)?)(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*|(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)){0})(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(victim)) {
+						if (victim == '') {
+							reply('chicken');
+                        } else {
+                            $.get('/criticise/' + victim + '?u=' + used, function(response) {
+                                used = response['used'];
+                                reply(response['lines'], response['retort']);
+                            }, 'json');
+                        }
+					} else {
+                        reply("invalid url");
+					}
+				});
+                
+				$('input')
+                    .val('http://www.google.com')
+				    .keypress(function(e) {
+                        if(e.which == 13) {
+                            $('button').click();
+                        }
+                    })
+                    .focus();
+			});
+		</script>
+	</body>
+</html>

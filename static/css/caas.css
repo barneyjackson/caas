@@ -1,0 +1,40 @@
+#header {
+    text-align: center;
+}
+.line:nth-child(2) {
+    color: #c7254e;
+}
+#loader {
+    text-align: center;
+    display: none;
+    margin-top: 60px;
+}
+#message {
+    display: none;
+}
+#retort {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+pre {
+    padding: 5px;
+    margin: 0 0 2px;
+}
+pre code {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+footer {
+    margin: 5em 0;
+}
+footer li {
+    float: left;
+    margin-right: 1.5em;
+    margin-bottom: 1.5em;
+}
+footer p {
+    margin-bottom: 0;
+    clear: left;
+}
