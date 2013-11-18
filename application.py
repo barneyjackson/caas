@@ -24,7 +24,7 @@ retorts = {
     14: 'Start again, seriously.',
     15: 'It\'s like you suddenly started writing with your eyes closed?',
     16: 'This was clearly an off day for you...',
-    17: 'What happlicationened here?!',
+    17: 'What happened here?!',
     18: 'You couldn\'t be more wrong',
     19: 'Are you retarded?',
     20: 'You can do better than this.',
@@ -79,7 +79,7 @@ def criticise(victim):
         thinking = retort_id in used
         if thinking == False:
             retort = retorts[retort_id]
-            used.applicationend(retort_id)
+            used.append(retort_id)
     print victim + ' -> ' + retort + ' Remaining: ' + str([ x for x in retorts.keys() if x not in used ] or str(None))
     return json.dumps({'lines': lines, 'retort': retort, 'used': used})
 
