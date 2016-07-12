@@ -1,3 +1,6 @@
 logs.txt
 .elasticbeanstalk/
 *.swp
+lib
+bin
+include
